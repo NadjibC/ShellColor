@@ -1,4 +1,4 @@
-# ShellColor 0.9
+# ShellColor
 
 ##### A Simple ASCII Color Generation C++ Library & Command-Line Application.
 
