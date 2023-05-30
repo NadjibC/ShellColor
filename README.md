@@ -195,7 +195,8 @@ int main(int argc, char ** argv) {
 #include <shellcolor.h>
 
 int main(int argc, char ** argv) {
-    std::string generated = colormerge::generate({35, 40, 4}, "Hello World !", Color::PALETTE)
+    std::string generated = colormerge::generate({35, 40, 4}, "Hello World !", Color::PALETTE);
+    std::cout << generated << std::endl;
 }
 ```
 
