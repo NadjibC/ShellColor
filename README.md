@@ -1,6 +1,6 @@
 # ShellColor
 
-##### A Simple ASCII Color Generation C++ Library & Command-Line Application.
+A Simple ASCII Color Generation C++ Library & Command-Line Application.
 
 ## C++ Library
 
