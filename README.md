@@ -22,11 +22,11 @@ The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::B
 
 - The Namespace **Back** stores Background Escape Colors.
 
-- The Namespace **Fore** stores Foreground Escape Colors, 
+- The Namespace **Fore** stores Foreground Escape Colors,
 
 - The Namespace **Style** stores Escape Style Codes. Which Are:
 
-- ###### Namespace "Color" inner Variables:
+- ##### Namespace "Color" inner Variables
   
   | Variable  | Description                                                              |
   |:---------:|:------------------------------------------------------------------------:|
@@ -36,7 +36,7 @@ The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::B
 
 ##### Important Functions
 
------------
+---
 
 ```cpp
 std::string colormerge::inpalette(std::string input, std::string palette)
@@ -104,7 +104,7 @@ void colormerge::printc(std::string input, std::vector<char> codes, bool reset=t
   
   - **std::string input:** String Value to be Colorized **(Added to The Escape Sequence)**.
   
-  - **std::vector<char> codes:** Escape Codes to be added to The Escape Sequence.
+  - **std::vector\<char> codes:** Escape Codes to be added to The Escape Sequence.
   
   - **bool reset=true:** **Resets (Background and Foreground) Colors and Style** at the End Of The Escape Sequence.
   
@@ -126,7 +126,7 @@ std::vector<int> colorformat::find(std::string input)
 std::string colorformat::parse(std::string input)
 ```
 
-- **Description:** translates multiple colors in single Code Indicator ***{\__:\_\_:\__}** to an Escape Sequence.
+- **Description:** translates multiple colors in single Code Indicator ***{\_\_:\_\_:\_\_}** to an Escape Sequence.
 
 - **Parameters:**
   
@@ -169,7 +169,7 @@ int main(int argc, char ** argv) {
 
 - **Raw (Unformatted) Output:** **\e[35;40;4mHello World !\e[0m**
 
----------------------
+---
 
 **colorformat::format**, Formatting **\*{FMAGENTA:BBLACK:UNDERLINE}Hello World!*{RESET_ALL}**  to an Escape Sequence.
 
@@ -186,7 +186,7 @@ int main(int argc, char ** argv) {
 
 - **Value of Variable "escape_sequence":**  **\e[35;40;4mHello World !\e[0m**
 
-------
+---
 
 **colormerge::generate**, Generating an Escape Sequence in form of MAGENTA-BLACK-Underlined **Hello World !** text.
 
@@ -202,11 +202,11 @@ int main(int argc, char ** argv) {
 
 - **Value of Variable "generated":** **\e[35;40;4mHello World !\e[0m
 
-----
+---
 
 #### Additional Information
 
-###### Codes RAPIDBLINK, ITALIC are not widely supported.
+Codes RAPIDBLINK, ITALIC are not widely Supported.
 
 ## License
 
