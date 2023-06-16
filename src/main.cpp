@@ -5,8 +5,8 @@
  */
 
 #include <iostream>
-#include "shellcolor.h"
-#include "shellargs.h"
+#include "shellcolor.hpp"
+#include "shellargs.hpp"
 
 // "APPNAME" is Application Name which will be used in help() function
 #define APPNAME "shellcolor"
