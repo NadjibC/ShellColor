@@ -8,7 +8,7 @@ The Library is independent and Only Supports Linux Shell and Most of its Termina
 
 ### Definitions
 
-**Color Indicators**: Is a Part of a String which indicates The its Escape Code Replacement, Which is generally used with colorformat::format function. A **Color Indicator** is just an Asterisk and with an Escape Code Name (from Color::MAP) in Double Braces.
+**Color Indicators**: Is a Part of a String which indicates The its Escape Code Replacement, Which is generally used with colorformat::format function. A **Color Indicator** is just an Asterisk and with a single (or multiple) Escape Code Names **(from Color::MAP)** in Double Braces.
 
 Ex.: **\*(CODE1:CODE2)**
 
