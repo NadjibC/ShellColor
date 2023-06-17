@@ -8,10 +8,14 @@ The Library is independent and Only Supports Linux Shell and Most of its Termina
 
 ### Definitions
 
-**Color Indicators**: Is a Part of a String which indicates The its Escape Code Replacement, Which is generally used with colorformat::format function. A **Color Indicator** is just an Asterisk and with a single (or multiple) Escape Code Names **(from Color::MAP)** in Double Braces.
+**Color Indicator**: Is a Part of a String which indicates The its Escape Code Replacement, also it's generally used with colorformat::format function. A **Color Indicator** is just an Asterisk and with a single (or multiple) Escape Code Names **(Code Names are the Keys of Color::MAP)** in Double Braces.
 
-Ex.: **\*(CODE1:CODE2)**
+Example: **\*(CODE1:CODE2)**
+
+## Documentations
+
+- [Markdown Documentations](./DOCS.md)
 
 ## License
 
-Shell-Colors and all its components are Licensed Under [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+ShellColor and all its components (including as ShellOpts) are Licensed Under [GNU General Public License Version 3](./LICENSE)

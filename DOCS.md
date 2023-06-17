@@ -1,26 +1,28 @@
 # ShellColor Documentations
 
-### Overview
+## Overview
 
-The Main Header File has Three (3) Main Namespaces:
+The Main Header File (shellcolor.hpp) has Three (3) Main Namespaces:
 
-| Namespace Name | Description                                                                                       |
+| Namespace | Description                                                                                       |
 |:--------------:|:-------------------------------------------------------------------------------------------------:|
 | Color          | Stores Escape Codes for **Background Colors, Foreground Colors, and Styles**.                     |
 | colormerge     | Stores Essential Functions for Main Operations such as Print, Manipulating Escape Sequence Codes. |
 | colorformat    | Stores Format/Translate Operation Related Functions                                               |
 
-#### Details
+### Details
 
-The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::Back), Fore (Color::Fore), and Style (Color::Style)**, and **Color Map** (Color::Map) which is an **std::map\<std::string, const char>**
+The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::Back), Fore (Color::Fore), and Style (Color::Style)**, and **Color Map(Color::Map)** which is **std::map\<std::string, const char>** Object.
 
-- The Namespace **Back** stores Background Escape Colors.
+#### Abbreviations
 
-- The Namespace **Fore** stores Foreground Escape Colors,
+- The Namespace **Back** holds the Background Escape Colors Variables.
 
-- The Namespace **Style** stores Escape Style Codes. Which Are:
+- The Namespace **Fore** holds the Foreground Escape Colors Variables.
 
-- ##### Namespace "Color" inner Variables
+- The Namespace **Style** holds the Escape Style Codes Variables. Which Are:
+
+#### The Namespace "Color" Inner Variables
   
   | Variable  | Description                                                              |
   |:---------:|:------------------------------------------------------------------------:|
@@ -28,9 +30,43 @@ The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::B
   | RESET\_ALL | Reset Code For Colors and Styles.                                        |
   | MAP       | A Map which links Fore, Back, Style Namespaces inner Codes into strings. |
 
-##### Useful Functions
+## Explained Examples
+
+The Principles Of Printing a Colored Output using the **(colormerge::printc)** function requires a string to be Printed and Color Codes which are Stored in The "**Color**" Namespace.
+
+``` cpp
+#include <iostream>
+#include "shellcolor.hpp"
+
+int main(int argc, char ** argv) {
+    colormerge::printc("Hello World !", {Color::Fore::GREEN, Color::Style::BRIGHT}, true);
+    return 0;
+}
+```
+
+### Output
 
 ---
+\$ ./a.out
+
+**<p style="color: lightgreen;">Hello World!</p>**
+
+---
+
+The First Statement of the function "main" where **(colormerge::printc)** is called, the function Generates
+an Escape Sequence according To The Functions Parameters **(std::string input, std::vector\<char> codes, bool reset=true, std::string endl="\n")**.
+
+#### Brief of The Parameters : colormerge::printc(\*\*\*\*)
+
+- **(std::string input)**: Passed as **"Hello World!"**, is The Value which will be Appended to The Escape Sequence.
+
+- **(std::vector\<char> codes)**: Passed as **{Color::Fore::GREEN, Color::Style::BRIGHT}**, are the Escape Codes which will be Appended to The Escape Sequence; Also (Color::Fore::GREEN) and (Color::Style::BRIGHT) are Regular **const char** variables.
+
+- **(bool reset)**: Passed as **"true"**, If it's true, A RESET_ALL (\e[0m) Escape Code will be Added To The Escape Sequence Before The Value of Parameter (std::string endl), Otherwise the Escape Sequence Won't Be Affected.
+
+- **The Parameter (std::string endl)**: Passed as **"\n" (Newline Escape)**, is a String Value which will be Added to the End of the Escape Sequence, (If The Parameter **reset** is true) after the RESET_ALL Escape Code which will make it Unaffected by the Escape Sequence.
+
+## Useful Functions
 
 ```cpp
 std::string colormerge::inpalette(std::string input, std::string palette)
@@ -132,7 +168,7 @@ std::string colorformat::parse(std::string input)
 std::string colorformat::format(std::string input)
 ```
 
-- **Description:** Fully Parses and Translates Color Indicators in **The Parameter "input"** into a consistent escape sequence text.
+- **Description:** Replaces Color Indicators in **The Parameter "input"** into a consistent Escape Sequences.
 
 - **Parameter:**
   
@@ -144,13 +180,13 @@ std::string colorformat::format(std::string input)
 
 ---
 
-#### Examples
+## Code Examples
 
 **colormerge::printc**, Printing MAGENTA-BLACK-Underlined **Hello World !**
 
 ```cpp
 #include <iostream>
-#include "shellcolor.h"
+#include "shellcolor.hpp"
 
 int main(int argc, char ** argv) {
     colormerge::printc("Hello World !",
@@ -165,11 +201,11 @@ int main(int argc, char ** argv) {
 
 ---
 
-**colorformat::format**, Format **\*{FMAGENTA:BBLACK:UNDERLINE}Hello World!*{RESET_ALL}**  to an Escape Sequence.
+**colorformat::format**, Format "**\*{FMAGENTA:BBLACK:UNDERLINE}Hello World!*{RESET_ALL}**" to an Escape Sequence.
 
 ```cpp
 #include <iostream>
-#include "shellcolor.h"
+#include "shellcolor.hpp"
 
 int main(int argc, char ** argv) {
     std::string escape_sequence = colorformat::format("*{FMAGENTA:BBLACK:UNDERLINE}Hello World !*{RESET_ALL}");
@@ -186,7 +222,7 @@ int main(int argc, char ** argv) {
 
 ```cpp
 #include <iostream>
-#include <shellcolor.h>
+#include "shellcolor.hpp"
 
 int main(int argc, char ** argv) {
     std::string generated = colormerge::generate({35, 40, 4}, "Hello World !", Color::PALETTE);
@@ -198,6 +234,6 @@ int main(int argc, char ** argv) {
 
 ---
 
-#### Additional Informations
+### Additional Informations
 
-Codes RAPIDBLINK, ITALIC are not widely Supported.
+Codes RAPIDBLINK, ITALIC aren't widely Supported.
