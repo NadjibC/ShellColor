@@ -1,6 +1,6 @@
 # ShellColor
 
-A Basic ASCII Escape Sequences Generation C++ Library & A Command-Line Application.
+A Basic ANSI Escape Sequences Generation C++ Library & A Command-Line Application.
 
 ## As C++ Library
 
