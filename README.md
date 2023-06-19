@@ -18,4 +18,4 @@ Example: **\*(CODE1:CODE2)**
 
 ## License
 
-ShellColor and all its components (including as ShellOpts) are Licensed Under [GNU General Public License Version 3](./LICENSE)
+ShellColor and all its components (including as [ShellOpts](https://github.com/NadjibC/ShellOpts)) are Licensed Under [GNU General Public License Version 3](./LICENSE)
