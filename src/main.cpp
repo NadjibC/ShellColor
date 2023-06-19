@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include "shellcolor.hpp"
-#include "shellargs.hpp"
+#include "shellopts.hpp"
 
 // "APPNAME" is Application Name which will be used in help() function
 #define APPNAME "shellcolor"
@@ -16,91 +16,82 @@ using namespace std;
 
 class App {
 public:
-    ArgsParser argsparser;
+    ShellOpts shellopts;
     int Run(int argc, char ** argv) {
         // Run: initial operation such as arguments parsing, and requests executing
-        argsparser.add_option("text", "string", "", "-t", "--text");
-        argsparser.add_option("background", "string", "NULL", "-b", "--background");
-        argsparser.add_option("foreground", "string", "NULL", "-f", "--foreground");
-        argsparser.add_option("style", "string", "NULL", "-s", "--style");
-        argsparser.add_option("format", "string", "", "-fm", "--format");
-        argsparser.add_option("list", "bool", "", "-l", "--list");
-        argsparser.add_option("no_reset", "bool", "0", "-nr", "--no_reset");
-        argsparser.add_option("no_newline", "bool", "0", "-nl", "--no_newline");
-        argsparser.add_option("help", "bool", "0", "-h", "--help");
-        argsparser.add_option("version", "bool", "0", "-v", "--version");
-        argsparser.parse(argc, argv);
+        shellopts.add_option("text", shellopts.make_option(0, "text", "t", "input value to append to an escape sequence"));
+        shellopts.add_option("background", shellopts.make_option(0, "background", "b", "output escape sequence background color"));
+        shellopts.add_option("foreground", shellopts.make_option(0, "foreground", "f", "output escape sequence foreground color"));
+        shellopts.add_option("style", shellopts.make_option(0, "style", "s", "output escape sequence style"));
+        shellopts.add_option("format", shellopts.make_option(0, "format", "F", "output a formatted input", ""));
+        shellopts.add_option("list", shellopts.make_option(1, "list", "l", "list supported escape codes"));
+        shellopts.add_option("no_reset", shellopts.make_option(1, "no_reset", "r", "append a reset escape"));
+        shellopts.add_option("no_newline", shellopts.make_option(1, "no_newline", "n", "disable newline escape sequence"));
+        shellopts.add_option("help", shellopts.make_option(1, "help", "h", "print this help message"));
+        shellopts.add_option("version", shellopts.make_option(1, "version", "v", "print current program version"));
+        shellopts.parse_args(argc, argv);
 
         /* Checks if help flag is present,
          * if it is, help message will be printed and other options will be ignored
          */
-        if (argsparser.data["help"] == "1" || argc<=1 || argsparser.odd_args.size()-1 > 0) help();
+        if (eval(shellopts.get_content("help")) || argc<=1 || shellopts.unregistered_options.size() > 0) shellopts.print_help("usage: " + colormerge::generate({Color::Style::BRIGHT, Color::Fore::BLUE}, std::string(argv[0]), Color::PALETTE) + " <options> ");
         else main();
 
-        if (argc<=1 || argsparser.odd_args.size()-1 > 0) return 1;
+        if (argc<=1 || shellopts.unregistered_options.size() > 0) {
+            std::cout << colormerge::generate({Color::Fore::RED, Color::Style::BRIGHT}, "Error: ", Color::PALETTE) + "Invalid Argument" << (shellopts.unregistered_options.size()>1?"s":"") << ":";
+            for (std::string op : shellopts.unregistered_options) std::cout << " " << op;
+            std::cout << std::endl;
+            return 1;
+        }
 
         return 0;
     }
 
     void main() {
-        if (argsparser.data["version"] == "1") version();
-        if (argsparser.data["list"] == "1") {
+        if (eval(shellopts.get_content("version"))) version();
+        if (eval(shellopts.get_content("list"))) {
             colormerge::printc("Available Color: ", {Color::Fore::BLUE, Color::Style::BRIGHT}, true, "\n\n");
             for (std::pair<std::string, char> code : Color::Map) {
                 printf("%s",
                        ("\t- " + code.first + " : " + colormerge::generate({code.second}, code.first, Color::PALETTE) + "\n").c_str());
             }
         }
-        else if (argsparser.data["format"] != "")
+        else if (!shellopts.get_content("format").empty())
                 // Priority to "format" operation, when it is request operations other will be ignored
                 printf("%s",
-                       ((colorformat::format(argsparser.data["format"])+(argsparser.data["no_newline"]=="1"?"":"\n"))).c_str());
+                       ((colorformat::format(shellopts.get_content("format"))+(shellopts.get_content("no_newline")=="true"?"":"\n"))).c_str());
 
             else {
                 std::vector<char> codes;
-                if (argsparser.data["background"] != "NULL") codes.emplace_back(Color::Map["B" + argsparser.data["background"]]);
-                if (argsparser.data["foreground"] != "NULL") codes.emplace_back(Color::Map["F" + argsparser.data["foreground"]]);
-                codes = colorformat::pass_arg(codes, argsparser.data["style"]);
+                if (!shellopts.get_content("background").empty()) codes.emplace_back(Color::Map["B" + shellopts.get_content("background")]);
+                if (!shellopts.get_content("foreground").empty()) codes.emplace_back(Color::Map["F" + shellopts.get_content("foreground")]);
+                codes = colorformat::pass_arg(codes, shellopts.get_content("style"));
                 // Prints colored text according to text value and other arguments
-                if (argsparser.data["text"] != "") {
+                if (!shellopts.get_content("text").empty()) {
                     colormerge::printc(
-                        argsparser.data["text"],
+                        shellopts.get_content("text"),
                         {codes},
-                        (argsparser.data["no_reset"]=="1"?false:true),
-                        (argsparser.data["no_newline"]=="1"?"":"\n")
+                        (!eval(shellopts.get_content("no_reset"))),
+                        (shellopts.get_content("no_newline")=="true"?"":"\n")
                     );
                 }
             }
     }
 
-    void help() {
-        // Only Prints Help Message
-        printf(
-            "Usage: %s <options> \n\n"
-            "Options:"
-            "\n\t-t,  --text:        \t<value>           \t:: input value to colorize"
-            "\n\t-b,  --background:  \t<color>           \t:: output background color"
-            "\n\t-f,  --foreground:  \t<color>           \t:: output foreground color"
-            "\n\t-s,  --style:       \t<style>           \t:: output style"
-            "\n\t-fm, --format:      \t<code>            \t:: output translated input <text>"
-            "\n\t-l,  --list:        \t<true if present> \t:: list all possible colors/styles"
-            "\n\t-nr, --no_reset:    \t<true if present> \t:: disables color reset at exit"
-            "\n\t-nl, --no_newline:  \t<true if present> \t:: disables newline at exit"
-            "\n\t-h,  --help:        \t<code>            \t:: prints help message"
-            "\n",
-            colormerge::generate({Color::Fore::BLUE, Color::Style::BRIGHT}, APPNAME, Color::PALETTE).c_str()
-        );
-    }
     void version() {
         printf("%s %.1f \n",
                colormerge::generate({Color::Fore::BLUE, Color::Style::BRIGHT}, APPNAME, Color::PALETTE).c_str(),
                APPVERSION
                );
     }
+private:
+    bool eval(std::string string_boolean) {
+        if (string_boolean == "true") return true;
+        return false;
+    }
 };
 
 int main(int argc, char ** argv) {
     App app;
     return app.Run(argc, argv);
-    return 0;
 }
