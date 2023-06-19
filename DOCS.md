@@ -7,7 +7,7 @@ The Main Header File (shellcolor.hpp) has Three (3) Main Namespaces:
 | Namespace | Description                                                                                       |
 |:--------------:|:-------------------------------------------------------------------------------------------------:|
 | Color          | Stores Escape Codes for **Background Colors, Foreground Colors, and Styles**.                     |
-| colormerge     | Stores Essential Functions for Main Operations such as Print, Manipulating Escape Sequence Codes. |
+| colormerge     | Stores Essential Functions for Main Operations such as Print, Manipulating Escape Sequence Codes  |
 | colorformat    | Stores Format/Translate Operation Related Functions                                               |
 
 ### Details
