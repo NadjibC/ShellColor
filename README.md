@@ -31,7 +31,7 @@ The Namespace "Color" contains Three Inner Namespaces which are **Back (Color::B
   | Variable  | Description                                                              |
   |:---------:|:------------------------------------------------------------------------:|
   | PALETTE   | Escape Sequence Template.                                                |
-  | RESET_ALL | Reset Code For Colors and Styles.                                        |
+  | RESET\_ALL | Reset Code For Colors and Styles.                                        |
   | MAP       | A Map which links Fore, Back, Style Namespaces inner Codes into strings. |
 
 ##### Important Functions
@@ -206,7 +206,7 @@ int main(int argc, char ** argv) {
 
 #### Additional Information
 
-###### Color Codes RAPIDBLINK, ITALIC are not widely supported.
+###### Codes RAPIDBLINK, ITALIC are not widely supported.
 
 ## License
 
